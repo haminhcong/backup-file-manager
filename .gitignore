@@ -127,3 +127,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+## IDE Files
+.idea
+
+## Config files
+configuration.py
+## Static file
+/backup-file-manager/static/
