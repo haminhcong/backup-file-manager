@@ -23,6 +23,7 @@ body {
 }
 .navbar-brand {
     padding: 12px 15px 8px;
+    vertical-align: middle;
 }
 .footer, .push {
     height: 60px; /* .push must be the same height as .footer */
@@ -354,3 +355,8 @@ td .progress {
 textarea {
     font-family: Consolas, Lucida Console, monospace;
 }
+
+/*.navbar-brand-text{*/
+/*    !*---The margin depends on how the image size is ---*!*/
+/*    display:inline-block; margin-top:10px;*/
+/*}*/
