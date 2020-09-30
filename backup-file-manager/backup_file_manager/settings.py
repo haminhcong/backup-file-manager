@@ -37,7 +37,7 @@ except ImportError:
     )
 
 # Enforce required configuration parameters
-for parameter in ['ALLOWED_HOSTS', 'DATABASE', 'SECRET_KEY', 'REDIS']:
+for parameter in ['ALLOWED_HOSTS', 'DATABASE', 'SECRET_KEY']:
     if not hasattr(configuration, parameter):
         raise ImproperlyConfigured(
             "Required parameter {} is missing from configuration.py.".format(parameter)
@@ -46,7 +46,6 @@ for parameter in ['ALLOWED_HOSTS', 'DATABASE', 'SECRET_KEY', 'REDIS']:
 # Set required parameters
 ALLOWED_HOSTS = getattr(configuration, 'ALLOWED_HOSTS')
 DATABASE = getattr(configuration, 'DATABASE')
-REDIS = getattr(configuration, 'REDIS')
 SECRET_KEY = getattr(configuration, 'SECRET_KEY')
 
 # Set optional parameters
@@ -194,6 +193,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'timezone_field',
     'file_manager',
+    'users',
     'drf_yasg',
 ]
 
