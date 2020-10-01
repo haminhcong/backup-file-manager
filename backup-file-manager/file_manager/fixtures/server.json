@@ -1,0 +1,62 @@
+[
+    {
+        "model": "file_manager.uploadserver",
+        "pk": 1,
+        "fields": {
+            "created": "2019-11-27",
+            "last_updated": "2019-11-27T17:20:50.094Z",
+            "ip_address": "192.168.180.21/24",
+            "name": "Server 192.168.180.21",
+            "slug": "server-192-168-180-21",
+            "server_type": 1
+        }
+    },
+    {
+        "model": "file_manager.uploadserver",
+        "pk": 2,
+        "fields": {
+            "created": "2019-11-27",
+            "last_updated": "2019-11-27T17:20:50.094Z",
+            "ip_address": "192.168.180.22/24",
+            "name": "Server 192.168.180.22",
+            "slug": "server-192-168-180-22",
+            "server_type": 1
+        }
+    },
+    {
+        "model": "file_manager.uploadserver",
+        "pk": 3,
+        "fields": {
+            "created": "2019-11-27",
+            "last_updated": "2019-11-27T17:20:50.094Z",
+            "ip_address": "192.168.180.23/24",
+            "name": "Server 192.168.180.23",
+            "slug": "server-192-168-180-23",
+            "server_type": 1
+        }
+    },
+    {
+        "model": "file_manager.uploadserver",
+        "pk": 4,
+        "fields": {
+            "created": "2019-11-27",
+            "last_updated": "2019-11-27T17:20:50.094Z",
+            "ip_address": "10.67.10.22/24",
+            "name": "User A Server",
+            "slug": "user-a-server",
+            "server_type": 2
+        }
+    },
+    {
+        "model": "file_manager.uploadserver",
+        "pk": 5,
+        "fields": {
+            "created": "2019-11-27",
+            "last_updated": "2019-11-27T17:20:50.094Z",
+            "ip_address": null,
+            "name": "User B Server",
+            "slug": "user-b-server",
+            "server_type": 2
+        }
+    }
+]

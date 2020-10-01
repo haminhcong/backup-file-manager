@@ -194,6 +194,7 @@ INSTALLED_APPS = [
     'timezone_field',
     'file_manager',
     'users',
+    'extras',
     'utilities',
     'drf_yasg',
 ]

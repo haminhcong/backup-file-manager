@@ -4,7 +4,8 @@ from django.urls import path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 
-from backup_file_manager.views import HomeView, APIRootView, StaticMediaFailureView
+from backup_file_manager.views import APIRootView, StaticMediaFailureView
+from file_manager.views import UploadServerListView
 
 openapi_info = openapi.Info(
     title="Backup File Manager API",
@@ -23,7 +24,11 @@ schema_view = get_schema_view(
 _patterns = [
 
     # Base views
-    path('', HomeView.as_view(), name='home'),
+    path('', UploadServerListView.as_view(), name='home'),
+
+    # Apps
+    path(r'file-manager/', include('file_manager.urls')),
+
     # API
     path('api/', APIRootView.as_view(), name='api-root'),
 

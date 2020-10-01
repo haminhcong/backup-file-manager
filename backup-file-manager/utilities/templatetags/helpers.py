@@ -261,3 +261,11 @@ def badge(value, show_empty=False):
         'value': value,
         'show_empty': show_empty,
     }
+
+
+@register.filter()
+def contains(value, arg):
+    """
+    Test whether a value contains any of a given set of strings. `arg` should be a comma-separated list of strings.
+    """
+    return any(s in value for s in arg.split(','))

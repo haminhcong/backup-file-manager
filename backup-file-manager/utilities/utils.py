@@ -1,3 +1,11 @@
+import datetime
+import json
+
+from django.core.serializers import serialize
+
+from extras.utils import is_taggable
+
+
 def flatten_dict(d, prefix='', separator='.'):
     """
     Flatten nested dictionaries into a single level by joining key names with a separator.
@@ -69,3 +77,70 @@ def foreground_color(bg_color):
         return '000000'
     else:
         return 'ffffff'
+
+
+def serialize_object(obj, extra=None, exclude=None):
+    """
+    Return a generic JSON representation of an object using Django's built-in serializer. (This is used for things like
+    change logging, not the REST API.) Optionally include a dictionary to supplement the object data. A list of keys
+    can be provided to exclude them from the returned dictionary. Private fields (prefaced with an underscore) are
+    implicitly excluded.
+    """
+    json_str = serialize('json', [obj])
+    data = json.loads(json_str)[0]['fields']
+
+    # Include any custom fields
+    if hasattr(obj, 'get_custom_fields'):
+        data['custom_fields'] = {
+            field: str(value) for field, value in obj.cf.items()
+        }
+
+    # Include any tags. Check for tags cached on the instance; fall back to using the manager.
+    if is_taggable(obj):
+        tags = getattr(obj, '_tags', obj.tags.all())
+        data['tags'] = [tag.name for tag in tags]
+
+    # Append any extra data
+    if extra is not None:
+        data.update(extra)
+
+    # Copy keys to list to avoid 'dictionary changed size during iteration' exception
+    for key in list(data):
+        # Private fields shouldn't be logged in the object change
+        if isinstance(key, str) and key.startswith('_'):
+            data.pop(key)
+
+        # Explicitly excluded keys
+        if isinstance(exclude, (list, tuple)) and key in exclude:
+            data.pop(key)
+
+    return data
+
+
+def csv_format(data):
+    """
+    Encapsulate any data which contains a comma within double quotes.
+    """
+    csv = []
+    for value in data:
+
+        # Represent None or False with empty string
+        if value is None or value is False:
+            csv.append('')
+            continue
+
+        # Convert dates to ISO format
+        if isinstance(value, (datetime.date, datetime.datetime)):
+            value = value.isoformat()
+
+        # Force conversion to string first so we can check for any commas
+        if not isinstance(value, str):
+            value = '{}'.format(value)
+
+        # Double-quote the value if it contains a comma
+        if ',' in value or '\n' in value:
+            csv.append('"{}"'.format(value))
+        else:
+            csv.append('{}'.format(value))
+
+    return ','.join(csv)
