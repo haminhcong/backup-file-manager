@@ -24,6 +24,7 @@ body {
 .navbar-brand {
     padding: 12px 15px 8px;
     vertical-align: middle;
+    min-width: 300px;
 }
 .footer, .push {
     height: 60px; /* .push must be the same height as .footer */
