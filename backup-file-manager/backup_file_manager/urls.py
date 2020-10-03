@@ -5,7 +5,7 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 
 from backup_file_manager.views import APIRootView, StaticMediaFailureView
-from file_manager.views import UploadServerListView
+from file_manager.views import BackupFileListView
 
 openapi_info = openapi.Info(
     title="Backup File Manager API",
@@ -24,7 +24,7 @@ schema_view = get_schema_view(
 _patterns = [
 
     # Base views
-    path('', UploadServerListView.as_view(), name='home'),
+    path('', BackupFileListView.as_view(), name='home'),
 
     # Apps
     path(r'file-manager/', include('file_manager.urls')),

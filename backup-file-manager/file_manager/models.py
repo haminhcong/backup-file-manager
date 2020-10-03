@@ -45,9 +45,10 @@ class UploadServer(ChangeLoggedModel):
             return f'{self.name} - {self.ip_address}'
         return self.name
 
-    #
-    # def get_absolute_url(self):
-    #     return "{}?region={}".format(reverse('file_manager:site_list'), self.slug)
+    @property
+    def server_ip_slug(self):
+        return self.ip_address.ip.replace(':', '-').replace('.', '-')
+
     def get_duplicates(self):
         return UploadServer.objects.filter(
             address__net_host=str(self.ip_address.ip)).exclude(pk=self.pk)
@@ -73,3 +74,49 @@ class UploadServer(ChangeLoggedModel):
 
     def get_server_type_class(self):
         return SERVER_TYPE_CLASSES[self.server_type]
+
+
+def backup_file_upload(instance, filename):
+    backup_file_dir = 'backup-files'
+    # Rename the file to the provided name
+    storage_filename = (f'{instance.upload_server.server_ip_slug}-'
+                        f'{instance.uuid}-f{instance.filename}')
+    return '{}/{}'.format(backup_file_dir, storage_filename)
+
+
+class BackupFile(ChangeLoggedModel):
+    """
+    An uploaded file which is associated with an object.
+    """
+    upload_server = models.ForeignKey(
+        to=UploadServer,
+        on_delete=models.PROTECT,
+        related_name='backup_files'
+    )
+    absolute_file_path = models.CharField(
+        blank=False,
+        max_length=2048
+    )
+    filename = models.CharField(
+        blank=False,
+        max_length=256
+    )
+    uuid = models.UUIDField(
+        editable=False
+    )
+    file = models.FileField(
+        upload_to=backup_file_upload,
+    )
+
+    class Meta:
+        ordering = ['upload_server', 'filename']
+        unique_together = [
+            ['upload_server', 'absolute_file_path'],
+        ]
+
+    def __str__(self):
+        return f'{self.upload_server}-{self.filename}'
+
+    def clean(self):
+        if not self.absolute_file_path.endswith(self.filename):
+            raise ValidationError("absolute file path is not contains file name")

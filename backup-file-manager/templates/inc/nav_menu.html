@@ -16,11 +16,11 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="nav-item {% if request.path == '/' or request.path|contains:'/file-manager/upload-servers/' %} active{% endif %}">
-                    <a href="{% url 'file_manager:uploadserver_list' %}" class="nav-link">Upload Servers</a>
+                <li class="nav-item {% if request.path == '/' or request.path|contains:'/file-manager/backup-files/' %} active{% endif %}">
+                    <a href="{% url 'file_manager:backupfile_list' %}"  class="nav-link">Backup Files</a>
                 </li>
-                <li class="nav-item {% if request.path|contains:'/file-manager/backup-files/' %} active{% endif %}">
-                    <a href="#" class="nav-link">Backup Files</a>
+                <li class="nav-item {% if request.path|contains:'/file-manager/upload-servers/' %} active{% endif %}">
+                    <a href="{% url 'file_manager:uploadserver_list' %}" class="nav-link">Upload Servers</a>
                 </li>
             </ul>
 
