@@ -9,10 +9,10 @@ __all__ = [
 
 
 class NestedUploadServerSerializer(WritableNestedSerializer):
-    url = serializers.HyperlinkedIdentityField(view_name='file-manager-api:site-detail')
+    url = serializers.HyperlinkedIdentityField(view_name='file-manager-api:backupfile-detail')
 
     class Meta:
         model = models.UploadServer
         fields = [
-            'id', 'name', 'ip_address', 'description', 'slug'
+            'id', 'url', 'name', 'ip_address', 'description', 'slug'
         ]

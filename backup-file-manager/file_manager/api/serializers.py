@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from file_manager.api.nested_serializers import NestedUploadServerSerializer
 from file_manager.constants import SERVER_TYPE_CHOICES
-from file_manager.models import UploadServer
+from file_manager.models import UploadServer, BackupFile
 from utilities.api import ValidatedModelSerializer, ChoiceField
 
 
@@ -22,7 +22,7 @@ class BackupFileSerializer(ValidatedModelSerializer):
     upload_server = NestedUploadServerSerializer(required=False, allow_null=True)
 
     class Meta:
-        model = UploadServer
+        model = BackupFile
         fields = [
             'id', 'url', 'upload_server', 'absolute_file_path', 'filename', 'uuid', 'file'
         ]
