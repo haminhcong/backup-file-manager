@@ -8,7 +8,7 @@ from file_manager.models import UploadServer, BackupFile
 from utilities.views import ObjectListView, ObjectEditView
 
 
-class UploadServerListView(ObjectListView):
+class UploadServerListView(PermissionRequiredMixin, ObjectListView):
     permission_required = 'file_manager.view_uploadserver'
     queryset = UploadServer.objects.all()
     filter = filters.UploadServerFilter
@@ -17,7 +17,7 @@ class UploadServerListView(ObjectListView):
     template_name = 'file_manager/uploadserver_list.html'
 
 
-class BackupFileListView(ObjectListView):
+class BackupFileListView(PermissionRequiredMixin, ObjectListView):
     permission_required = 'file_manager.view_backupfile'
     queryset = BackupFile.objects.all()
     filter = filters.BackupFileFilter
@@ -26,7 +26,7 @@ class BackupFileListView(ObjectListView):
     template_name = 'file_manager/backupfile_list.html'
 
 
-class BackupFileCreateView(ObjectEditView):
+class BackupFileCreateView(PermissionRequiredMixin, ObjectEditView):
     permission_required = 'file_manager.add_backupfile'
     model = BackupFile
     model_form = forms.BackupFileForm
