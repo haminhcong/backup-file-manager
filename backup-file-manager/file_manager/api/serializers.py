@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.relations import PrimaryKeyRelatedField
 
 from file_manager.api.nested_serializers import NestedUploadServerSerializer
 from file_manager.constants import SERVER_TYPE_CHOICES
@@ -19,7 +20,7 @@ class UploadServerSerializer(ValidatedModelSerializer):
 
 class BackupFileSerializer(ValidatedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='file-manager-api:backupfile-detail')
-    upload_server = NestedUploadServerSerializer(required=False, allow_null=True)
+    upload_server = PrimaryKeyRelatedField(queryset=UploadServer.objects.all())
 
     class Meta:
         model = BackupFile
