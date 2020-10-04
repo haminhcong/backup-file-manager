@@ -1,0 +1,4 @@
+{% load helpers %}
+{% include table_template|default:'responsive_table.html' %}
+{% include 'inc/paginator.html' with paginator=table.paginator page=table.page %}
+<div class="clearfix"></div>

@@ -1,0 +1,62 @@
+[
+    {
+        "model": "file_manager.backupfile",
+        "pk": 1,
+        "fields": {
+            "created": "2019-11-27",
+            "last_updated": "2019-11-27T17:20:50.094Z",
+            "upload_server": 1,
+            "absolute_file_path": "/home/test/file_1.txt",
+            "uuid": "f96335c3-f105-41f1-b271-cad0882e94aa",
+            "filename": "file_1.txt"
+        }
+    },
+    {
+        "model": "file_manager.backupfile",
+        "pk": 2,
+        "fields": {
+            "created": "2019-11-27",
+            "last_updated": "2019-11-27T17:20:50.094Z",
+            "upload_server": 1,
+            "absolute_file_path": "/home/test/file-2.docx",
+            "uuid": "cf93cf68-b479-48c3-b5f3-cad1baaae3e7",
+            "filename": "file-2.docx"
+        }
+    },
+    {
+        "model": "file_manager.backupfile",
+        "pk": 3,
+        "fields": {
+            "created": "2019-11-27",
+            "last_updated": "2019-11-27T17:20:50.094Z",
+            "upload_server": 1,
+            "absolute_file_path": "/home/test/file-3.xlsx",
+            "uuid": "7d5ca3d1-8866-46ff-906e-42ba15a90f49",
+            "filename": "file-3.xlsx"
+        }
+    },
+    {
+        "model": "file_manager.backupfile",
+        "pk": 4,
+        "fields": {
+            "created": "2019-11-27",
+            "last_updated": "2019-11-27T17:20:50.094Z",
+            "upload_server": 2,
+            "absolute_file_path": "/home/server-2/file-1.xlsx",
+            "uuid": "c52efdbb-89df-47a3-9ff4-e9368b30a8e4",
+            "filename": "file-3.xlsx"
+        }
+    },
+    {
+        "model": "file_manager.backupfile",
+        "pk": 5,
+        "fields": {
+            "created": "2019-11-27",
+            "last_updated": "2019-11-27T17:20:50.094Z",
+            "upload_server": 2,
+            "absolute_file_path": "/home/server-2/file-2.bak",
+            "uuid": "df5cc1ac-8b04-4d65-a079-fc9029c8c7ff",
+            "filename": "file-2.bak"
+        }
+    }
+]

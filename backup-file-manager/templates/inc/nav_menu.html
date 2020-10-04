@@ -1,0 +1,55 @@
+{% load static %}
+{% load helpers %}
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <span><img src="{% static 'img/backup_file_manager.ico' %}" height="30" /></span>
+                Backup File Manager
+            </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="nav-item {% if request.path == '/' or request.path|contains:'/file-manager/backup-files/' %} active{% endif %}">
+                    <a href="{% url 'file_manager:backupfile_list' %}"  class="nav-link">Backup Files</a>
+                </li>
+                <li class="nav-item {% if request.path|contains:'/file-manager/upload-servers/' %} active{% endif %}">
+                    <a href="{% url 'file_manager:uploadserver_list' %}" class="nav-link">Upload Servers</a>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                {% if request.user.is_authenticated %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="{{ request.user }}" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-user"></i>
+                            <span id="navbar_user">{{ request.user|truncatechars:"30" }}</span>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'user:profile' %}"><i class="fa fa-user"></i> Profile</a></li>
+                            {% if request.user.is_staff %}
+                                <li><a href="{% url 'admin:index' %}"><i class="fa fa-cogs"></i> Admin</a></li>
+                            {% endif %}
+                            <li class="divider"></li>
+                            <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i> Log out</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    {% url 'login' as login_url %}
+                    {% if request.path == login_url %}
+                        <li><a href="{{ request.get_full_path }}"><i class="fa fa-sign-in"></i> Log in</a></li>
+                    {% else %}
+                        <li><a href="{{ login_url }}?next={{ request.get_full_path | urlencode }}"><i class="fa fa-sign-in"></i> Log in</a></li>
+                    {% endif %}
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

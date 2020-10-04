@@ -1,0 +1,11 @@
+<div class="btn-group">
+    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+        <span class="fa fa-upload" aria-hidden="true"></span>
+        Export <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        <li><a href="?{% if url_params %}{{ url_params.urlencode }}&{% endif %}export-xlsx">XLSX (default)</a></li>
+        <li><a href="?{% if url_params %}{{ url_params.urlencode }}&{% endif %}export">CSV</a></li>
+    </ul>
+</div>
