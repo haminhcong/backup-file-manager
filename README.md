@@ -6,11 +6,15 @@ web interface and HTTP API Interface.
 
 ## Screenshots
 
-![Screenshot of main page](docs/media/screenshot1.png "Main page")
+![Screenshot 1](docs/media/Screenshot-1.png "Screenshot-1")
 
-![Screenshot of rack elevation](docs/media/screenshot2.png "Rack elevation")
+![Screenshot 2](docs/media/Screenshot-2.png "Screenshot-2")
 
-![Screenshot of prefix hierarchy](docs/media/screenshot3.png "Prefix hierarchy")
+![Screenshot 4](docs/media/Screenshot-4.png "Screenshot-4")
+
+![Screenshot 5](docs/media/Screenshot-5.png "Screenshot-5")
+
+![Screenshot 6](docs/media/Screenshot-6.png "Screenshot-6")
 
 ## Use HTTP API To Upload File from Client
 
