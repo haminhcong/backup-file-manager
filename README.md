@@ -1,6 +1,6 @@
-# backup-file-manager
+# Backup File Manager
 
-A backup server files web service tool. Allow users to backup file from
+A managing backup server files Web Service . Allow users to backup file from
 multiple servers to a central storage, and manage backedup files easily via
 web interface and HTTP API Interface.
 
@@ -16,7 +16,7 @@ web interface and HTTP API Interface.
 
 ![Screenshot 6](docs/media/Screenshot-6.png "Screenshot-6")
 
-## Use HTTP API To Upload File from Client
+## Use HTTP API To Upload File From Client
 
 ```python
 import requests
