@@ -1,3 +1,4 @@
+import uuid
 from django.core.exceptions import ValidationError
 from django.db import models
 
@@ -9,6 +10,7 @@ from file_manager.constants import SERVER_TYPE_CHOICES, SERVER_TYPE_SYSTEM_SERVE
 #
 # Upload Server
 #
+from utilities.querysets import RestrictedQuerySet
 
 
 class UploadServer(ChangeLoggedModel):
@@ -35,6 +37,8 @@ class UploadServer(ChangeLoggedModel):
         unique=True
     )
 
+    objects = RestrictedQuerySet.as_manager()
+
     class Meta:
         ordering = ('name', 'slug')  # address may be non-unique
         verbose_name = 'Upload Server'
@@ -46,8 +50,15 @@ class UploadServer(ChangeLoggedModel):
         return self.name
 
     @property
+    def short_name(self):
+        if self.ip_address:
+            return str(self.ip_address.ip)
+        return self.name
+
+
+    @property
     def server_ip_slug(self):
-        return self.ip_address.ip.replace(':', '-').replace('.', '-')
+        return str(self.ip_address.ip).replace(':', '-').replace('.', '-')
 
     def get_duplicates(self):
         return UploadServer.objects.filter(
@@ -80,7 +91,7 @@ def backup_file_upload(instance, filename):
     backup_file_dir = 'backup-files'
     # Rename the file to the provided name
     storage_filename = (f'{instance.upload_server.server_ip_slug}-'
-                        f'{instance.uuid}-f{instance.filename}')
+                        f'{instance.uuid}-{instance.filename}')
     return '{}/{}'.format(backup_file_dir, storage_filename)
 
 
@@ -102,11 +113,14 @@ class BackupFile(ChangeLoggedModel):
         max_length=256
     )
     uuid = models.UUIDField(
-        editable=False
+        editable=False,
+        default=uuid.uuid4,
     )
     file = models.FileField(
         upload_to=backup_file_upload,
     )
+
+    objects = RestrictedQuerySet.as_manager()
 
     class Meta:
         ordering = ['upload_server', 'filename']
@@ -116,6 +130,18 @@ class BackupFile(ChangeLoggedModel):
 
     def __str__(self):
         return f'{self.upload_server}-{self.filename}'
+
+    @property
+    def size(self):
+        """
+        Wrapper around `file.size` to suppress an OSError in case the file is inaccessible.
+        """
+        try:
+            if self.file:
+                return self.file.size
+            return None
+        except OSError:
+            return None
 
     def clean(self):
         if not self.absolute_file_path.endswith(self.filename):

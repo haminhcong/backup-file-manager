@@ -11,7 +11,23 @@ SERVER_TYPE_LABEL = """
 """
 
 BACKUP_FILE_SERVER = """
-{{ record.upload_server }}
+{{ record.upload_server.short_name }}
+"""
+
+BACKUP_FILE_SIZE = """
+{% if record.file %}
+    {{ record.size|filesizeformat }}
+{% else %}
+    &mdash;
+{% endif %}
+"""
+
+BACKUP_FILE_DOWNLOAD_LINK = """
+{% if record.file %}
+    <a href="{{ record.file.url }}" target="_blank">{{ record.filename }}</a>
+{% else %}
+    &mdash;
+{% endif %}
 """
 
 
@@ -27,9 +43,11 @@ class UploadServerTable(BaseTable):
 
 class BackupFileTable(BaseTable):
     upload_server = tables.TemplateColumn(BACKUP_FILE_SERVER, verbose_name='Upload Server')
+    file_size = tables.TemplateColumn(BACKUP_FILE_SIZE, verbose_name='Size')
+    download_link = tables.TemplateColumn(BACKUP_FILE_DOWNLOAD_LINK, verbose_name='Download')
 
     class Meta(BaseTable.Meta):
         model = BackupFile
         fields = (
-            'upload_server', 'absolute_file_path', 'filename', 'uuid'
+            'upload_server', 'absolute_file_path', 'filename', 'file_size', 'download_link'
         )

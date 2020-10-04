@@ -10,6 +10,7 @@ from django.db.models import ManyToManyField, ProtectedError
 from django.urls import reverse
 from rest_framework import serializers
 from rest_framework.exceptions import APIException, ValidationError
+from rest_framework.fields import Field
 from rest_framework.permissions import BasePermission
 from rest_framework.relations import PrimaryKeyRelatedField, RelatedField
 from rest_framework.response import Response
@@ -418,3 +419,62 @@ class OrderedDefaultRouter(DefaultRouter):
             api_root_dict[prefix] = list_name.format(basename=basename)
 
         return self.APIRootView.as_view(api_root_dict=api_root_dict)
+
+
+#
+# Fields
+#
+
+class ChoiceField(Field):
+    """
+    Represent a ChoiceField as {'value': <DB value>, 'label': <string>}.
+    """
+    def __init__(self, choices, **kwargs):
+        self._choices = dict()
+        for k, v in choices:
+            # Unpack grouped choices
+            if type(v) in [list, tuple]:
+                for k2, v2 in v:
+                    self._choices[k2] = v2
+            else:
+                self._choices[k] = v
+        super().__init__(**kwargs)
+
+    def to_representation(self, obj):
+        if obj is '':
+            return None
+        data = OrderedDict([
+            ('value', obj),
+            ('label', self._choices[obj])
+        ])
+        return data
+
+    def to_internal_value(self, data):
+
+        # Provide an explicit error message if the request is trying to write a dict or list
+        if isinstance(data, (dict, list)):
+            raise ValidationError('Value must be passed directly (e.g. "foo": 123); do not use a dictionary or list.')
+
+        # Check for string representations of boolean/integer values
+        if hasattr(data, 'lower'):
+            if data.lower() == 'true':
+                data = True
+            elif data.lower() == 'false':
+                data = False
+            else:
+                try:
+                    data = int(data)
+                except ValueError:
+                    pass
+
+        try:
+            if data in self._choices:
+                return data
+        except TypeError:  # Input is an unhashable type
+            pass
+
+        raise ValidationError("{} is not a valid choice.".format(data))
+
+    @property
+    def choices(self):
+        return self._choices

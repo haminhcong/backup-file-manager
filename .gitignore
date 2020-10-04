@@ -135,3 +135,4 @@ dmypy.json
 configuration.py
 ## Static file
 /backup-file-manager/static/
+/backup-file-manager/media/

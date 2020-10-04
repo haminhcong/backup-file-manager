@@ -25,7 +25,7 @@ class APIRootView(APIView):
 
     def get(self, request, format=None):
         return Response(OrderedDict((
-            ('file_manager', reverse('file_manager-api:api-root', request=request, format=format)),
+            ('file_manager', reverse('file-manager-api:api-root', request=request, format=format)),
         )))
 
 

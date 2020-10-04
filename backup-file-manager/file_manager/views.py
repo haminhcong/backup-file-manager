@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 
 from file_manager import filters, forms, tables
 from file_manager.models import UploadServer, BackupFile
-from utilities.views import ObjectListView
+from utilities.views import ObjectListView, ObjectEditView
 
 
 class UploadServerListView(ObjectListView):
@@ -25,3 +25,9 @@ class BackupFileListView(ObjectListView):
     table = tables.BackupFileTable
     template_name = 'file_manager/backupfile_list.html'
 
+
+class BackupFileCreateView(ObjectEditView):
+    permission_required = 'file_manager.add_backupfile'
+    model = BackupFile
+    model_form = forms.BackupFileForm
+    default_return_url = 'file_manager:backupfile_list'

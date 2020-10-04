@@ -12,6 +12,9 @@ class UploadServerFilterForm(BootstrapMixin, forms.Form):
     )
 
 
+#
+# Backup File
+#
 class BackupFileFilterForm(BootstrapMixin, forms.Form):
     model = BackupFile
     q = forms.CharField(
@@ -25,3 +28,17 @@ class BackupFileFilterForm(BootstrapMixin, forms.Form):
         label='Upload Server',
         widget=StaticSelect2()
     )
+
+
+class BackupFileForm(BootstrapMixin, forms.ModelForm):
+    upload_server = forms.ModelChoiceField(
+        queryset=UploadServer.objects.all(),
+        required=True,
+        widget=StaticSelect2()
+    )
+
+    class Meta:
+        model = BackupFile
+        fields = [
+            'upload_server', 'absolute_file_path', 'filename', 'file',
+        ]

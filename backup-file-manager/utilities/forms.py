@@ -66,3 +66,27 @@ class StaticSelect2Multiple(StaticSelect2, forms.SelectMultiple):
         super().__init__(*args, **kwargs)
 
         self.attrs['data-multiple'] = 1
+
+
+class DateTimePicker(forms.TextInput):
+    """
+    DateTime picker using Flatpickr.
+    """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.attrs['class'] = 'datetime-picker'
+        self.attrs['placeholder'] = 'YYYY-MM-DD hh:mm:ss'
+
+
+class ReturnURLForm(forms.Form):
+    """
+    Provides a hidden return URL field to control where the user is directed after the form is submitted.
+    """
+    return_url = forms.CharField(required=False, widget=forms.HiddenInput())
+
+
+class ConfirmationForm(BootstrapMixin, ReturnURLForm):
+    """
+    A generic confirmation form. The form is not valid unless the confirm field is checked.
+    """
+    confirm = forms.BooleanField(required=True, widget=forms.HiddenInput(), initial=True)
