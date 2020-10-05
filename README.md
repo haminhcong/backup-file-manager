@@ -4,6 +4,11 @@ A managing backup server files Web Service . Allow users to backup file from
 multiple servers to a central storage, and manage backedup files easily via
 web interface and HTTP API Interface.
 
+## Architecture
+
+![Architecture](docs/media/backup-file-manager-architecture.png "Architecture")
+
+
 ## Screenshots
 
 ![Screenshot 1](docs/media/Screenshot-1.png "Screenshot-1")
